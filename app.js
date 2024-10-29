@@ -1,10 +1,22 @@
+const { authorizeRole, authenticate, loginRequired } = require("./middlewares/middleware")
+const authRoutes = require('./routes/public/index');
+const privateRoutes = require('./routes/private/index');
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const responseMiddleware = require('./middlewares/response-middleware');
 require('dotenv').config();
+const cors = require('cors');
+
 
 const app = express();
 
+// Cấu hình CORS để cho phép yêu cầu từ frontend
+app.use(cors({
+  origin: 'http://localhost:8080',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 // Middleware
 app.use(bodyParser.json());
 app.use(express.static("views")); // Cung cấp các file tĩnh từ thư mục views
@@ -37,10 +49,20 @@ app.get('/test', function(request, response) {
     message: "This is a test route."
   });
 });
+app.get('/api/public/test', function(request, response) {
+  response.status(200).json({
+    message: "Hehe, On \" /api/public/test\""
+  });
+});
+app.get('/api/private/test', function(request, response) {
+  response.status(200).json({
+    message: "Hehe, On \" /api/private/test\""
+  });
+});
 
 // Định nghĩa các route khác
-// app.use('/api/public', authRoutes);
-// app.use('/api/private', loginRequired, privateRoutes);
+app.use('/api/public', authRoutes);
+app.use('/api/private', loginRequired, privateRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
@@ -51,3 +73,5 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
+
+app.use(responseMiddleware.format);
