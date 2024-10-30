@@ -2,7 +2,7 @@
   <div class="not-found">
     <h1>404</h1>
     <p>Trang không được tìm thấy hoặc chức năng đang được phát triển🥲</p>
-    <router-link to="/">Về trang chủ</router-link>
+    <router-link to="/home">Về trang chủ</router-link>
   </div>
 </template>
 

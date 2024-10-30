@@ -1,4 +1,3 @@
-//auth.api.js
 import instance from '@/services/axiosConfig';
 
 const login = async ({username, email, password}) => instance.post('/api/public/auth/login', {username, email, password});
@@ -6,5 +5,3 @@ const login = async ({username, email, password}) => instance.post('/api/public/
 export {
   login
 }
-
-

@@ -4,11 +4,17 @@ import Home from '@/pages/HomePage.vue';
 import Introduce from '@/pages/IntroducePage.vue';
 import Login from '@/pages/LoginPage.vue';
 import NotFound from '@/pages/NotFoundPage.vue';
+import ComplaintsManagementPage from '@/pages/ComplaintsManagementPage.vue';
+import CustomerManagerment from '@/pages/customers/CustomerManagerment.vue';
 
 const routes = [
-    { path: '/', component: Introduce },
-    { path: '/login', component: Login },
-    { path: '/home', component: Home, meta: { requiresAuth: true } },
+  { path: '/', component: Introduce },
+  { path: '/login', component: Login },
+  { path: '/complaints-management', component: ComplaintsManagementPage },
+  { path: '/customer-list', component: CustomerManagerment },
+  { path: '/home', component: Home, meta: { requiresAuth: true } },
+    
+
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
 ];
 

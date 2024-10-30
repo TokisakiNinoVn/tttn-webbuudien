@@ -2,7 +2,7 @@
     <div id="app">
       <header>
         <nav>
-          <a href="https://vietnampost.vn/thong-tin-huu-ich-kien-thuc-kinh-doanh/buu-dien-thai-nguyen-so-hoa-dich-vu-chuyen-phat">Trang chủ</a>
+          <a href="https://www.facebook.com/buudientinhTNN/">Trang chủ</a>
           <router-link to="/login">Đăng nhập</router-link>
         </nav>
       </header>

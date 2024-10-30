@@ -12,6 +12,6 @@
     "vue": "^3.5.12"
   },
   "scripts": {
-    "start": "nodemon app.js"
+    "api": "nodemon app.js"
   }
 }

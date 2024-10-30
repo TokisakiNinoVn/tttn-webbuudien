@@ -33,14 +33,9 @@ exports.authenticate = (req, res, next) => {
 
 // Middleware kiểm tra đăng nhập
 exports.loginRequired = (req, res, next) => {
-  try {
-    if (req.session && req.session.user) {
-      next();
-    } else {
-      res.status(401).send("Login required");
-    }
-  } catch (error) {
-    console.error("Error in loginRequired middleware:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+  if (req.session && req.session.user) {
+    return next();
+  } else {
+    return res.status(401).json({ message: "Login required" });
   }
 };

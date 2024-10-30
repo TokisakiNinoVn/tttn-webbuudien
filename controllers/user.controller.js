@@ -1,45 +1,20 @@
 const db = require('../config/db.config');
 const bcrypt = require('bcrypt');
 
-// Đăng ký người dùng mới
-exports.register = async (req, res, next) => {
-  const { name, email, phone, address, role, password } = req.body;
-  
+// Thêm người dùng mới
+exports.add = async (req, res, next) => {
+  const { username, email, password } = req.body;
+
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const sql = `
-      INSERT INTO User (name, email, phone, address, role, password)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO Users (username, email, role, password)
+      VALUES (?, ?, ?, ?)
     `;
-    const [result] = await db.execute(sql, [name, email, phone, address, role || 'khách hàng', hashedPassword]);
+    const [result] = await db.pool.execute(sql, [username, email, 'khách hàng', hashedPassword]);
 
     res.status(201).json({ message: "User registered successfully", userId: result.insertId });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// Đăng nhập
-exports.login = async (req, res, next) => {
-  const { email, password } = req.body;
-
-  try {
-    const sql = `SELECT * FROM User WHERE email = ?`;
-    const [rows] = await db.execute(sql, [email]);
-    const user = rows[0];
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ message: "Invalid password" });
-    }
-
-    req.session.user = { id: user.id, name: user.name, role: user.role };
-    res.json({ message: "Login successful", user: { id: user.id, name: user.name, role: user.role } });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -48,8 +23,8 @@ exports.login = async (req, res, next) => {
 // Lấy tất cả người dùng
 exports.getAllUsers = async (req, res, next) => {
   try {
-    const sql = `SELECT * FROM User`;
-    const [users] = await db.execute(sql);
+    const sql = `SELECT * FROM Users`;
+    const [users] = await db.pool.execute(sql);
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -61,8 +36,8 @@ exports.getUserById = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const sql = `SELECT * FROM User WHERE id = ?`;
-    const [rows] = await db.execute(sql, [id]);
+    const sql = `SELECT * FROM Users WHERE id = ?`;
+    const [rows] = await db.pool.execute(sql, [id]);  // Thay đổi ở đây
     const user = rows[0];
 
     if (!user) {
@@ -81,8 +56,8 @@ exports.updateUser = async (req, res, next) => {
   const { name, phone, address } = req.body;
 
   try {
-    const sql = `UPDATE User SET name = ?, phone = ?, address = ? WHERE id = ?`;
-    await db.execute(sql, [name, phone, address, id]);
+    const sql = `UPDATE Users SET name = ?, phone = ?, address = ? WHERE id = ?`;
+    await db.pool.execute(sql, [name, phone, address, id]);  // Thay đổi ở đây
 
     res.json({ message: "User updated successfully" });
   } catch (error) {
@@ -95,10 +70,41 @@ exports.deleteUser = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const sql = `DELETE FROM User WHERE id = ?`;
-    await db.execute(sql, [id]);
+    const sql = `DELETE FROM Users WHERE id = ?`;
+    await db.pool.execute(sql, [id]);  // Thay đổi ở đây
 
     res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Tìm kiếm người dùng theo tên, số điện thoại, địa chỉ, ID
+exports.search = async (req, res, next) => {
+  const { query } = req.body;
+
+  try {
+    const sql = `
+      SELECT * FROM Users 
+      WHERE username LIKE ? OR phone LIKE ? OR address LIKE ? OR id LIKE ?
+    `;
+    const [users] = await db.pool.execute(sql, [`%${query}%`, `%${query}%`, `%${query}%`, `%${query}%`]);  // Thay đổi ở đây
+
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Lọc thông tin theo Role
+exports.filter = async (req, res, next) => {
+  const { role } = req.body;
+
+  try {
+    const sql = `SELECT * FROM Users WHERE role = ?`;
+    const [users] = await db.pool.execute(sql, [role]);  // Thay đổi ở đây
+
+    res.json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

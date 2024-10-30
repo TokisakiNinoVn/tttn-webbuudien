@@ -21,12 +21,17 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(express.static("views")); // Cung cấp các file tĩnh từ thư mục views
 
-// Cấu hình session
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'default-secret', // Thay thế bằng chuỗi tĩnh nếu không có SESSION_SECRET
-  resave: false,
-  saveUninitialized: true,
+  secret: process.env.SESSION_SECRET || 'default-secret',
+  resave: false, // Giữ nguyên false để chỉ lưu lại phiên khi có thay đổi
+  saveUninitialized: false, // Chỉ lưu phiên khi có dữ liệu session được thiết lập
+  cookie: {
+    secure: false, // Đặt true nếu chạy trên HTTPS
+    httpOnly: true, // Ngăn truy cập vào cookie qua JavaScript để bảo mật
+    maxAge: 1000 * 60 * 60 // 1 giờ (thời gian tùy chỉnh theo nhu cầu)
+  }
 }));
+
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -72,6 +77,14 @@ app.listen(PORT, () => {
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
+});
+
+app.get('/api/check-session', (req, res) => {
+  if (req.session.user) {
+    res.json({ loggedIn: true, user: req.session.user });
+  } else {
+    res.json({ loggedIn: false });
+  }
 });
 
 app.use(responseMiddleware.format);
