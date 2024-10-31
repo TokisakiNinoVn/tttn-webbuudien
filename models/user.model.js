@@ -6,6 +6,11 @@ const User = db.sequelize.define('User', {
     primaryKey: true,
     autoIncrement: true
   },
+  username: { // Thêm trường username
+    type: db.Sequelize.STRING,
+    allowNull: false,
+    unique: true // Đảm bảo rằng username là duy nhất
+  },
   name: {
     type: db.Sequelize.STRING,
     allowNull: false
@@ -24,6 +29,10 @@ const User = db.sequelize.define('User', {
   role: {
     type: db.Sequelize.ENUM('nhân viên', 'khách hàng'),
     defaultValue: 'khách hàng'
+  },
+  gender: { // Thêm trường gender
+    type: db.Sequelize.ENUM('nam', 'nữ', 'khác'), // Thay đổi tùy theo nhu cầu
+    allowNull: true // Có thể để trống
   },
   password: {
     type: db.Sequelize.STRING,

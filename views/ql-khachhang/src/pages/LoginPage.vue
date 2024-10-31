@@ -62,16 +62,17 @@ const handleLogin = async () => {
 
   try {
     const response = await login({ username: username.value, email: email.value, password: password.value });
+
+    // Lưu thông tin đăng nhập vào localStorage
     const { data } = response.data;
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('user', JSON.stringify(data));
 
-    // Lưu token vào localStorage nếu cần thiết
-    localStorage.setItem('token', data.token); // Nếu API trả về token
-
-    // Chuyển hướng đến trang cá nhân hoặc trang chính
-    router.push('/home'); // Cập nhật đường dẫn đến trang cá nhân
-
+    // Nếu đăng nhập thành công, chuyển hướng đến trang chính
+    router.push('/home');
   } catch (error) {
-    // Xử lý lỗi
+    // Xử lý lỗi đăng nhập
+    console.log(error);
     errorMessage.value = error.response?.data?.message || 'Đăng nhập thất bại';
   }
 };

@@ -3,22 +3,50 @@ const bcrypt = require('bcrypt');
 
 // Thêm người dùng mới
 exports.add = async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, phone, name, address, gender } = req.body;
 
   try {
+    // Kiểm tra xem username đã tồn tại
+    const checkUsernameSql = `SELECT * FROM Users WHERE username = ?`;
+    const [usernameResult] = await db.pool.execute(checkUsernameSql, [username]);
+
+    // Kiểm tra xem email đã tồn tại
+    const checkEmailSql = `SELECT * FROM Users WHERE email = ?`;
+    const [emailResult] = await db.pool.execute(checkEmailSql, [email]);
+
+    if (usernameResult.length > 0) {
+      return res.status(400).json({ error: "Tên người dùng đã tồn tại!" });
+    }
+
+    if (emailResult.length > 0) {
+      return res.status(400).json({ error: "Email đã được đăng ký!" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const sql = `
-      INSERT INTO Users (username, email, role, password)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO Users (username, email, role, password, phone, name, address, gender, createdAt)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
     `;
-    const [result] = await db.pool.execute(sql, [username, email, 'khách hàng', hashedPassword]);
+    const userData = [
+      username,
+      email,
+      'khách hàng',
+      hashedPassword,
+      phone || null, 
+      name || null,
+      address || null,
+      gender || null 
+    ];
 
-    res.status(201).json({ message: "User registered successfully", userId: result.insertId });
+    const [result] = await db.pool.execute(sql, userData);
+
+    res.status(201).json({ message: "Thêm mới khách hàng thành công!", userId: result.insertId });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // Lấy tất cả người dùng
 exports.getAllUsers = async (req, res, next) => {
@@ -53,11 +81,11 @@ exports.getUserById = async (req, res, next) => {
 // Cập nhật thông tin người dùng
 exports.updateUser = async (req, res, next) => {
   const { id } = req.params;
-  const { name, phone, address } = req.body;
+  const { name, phone, address, gender } = req.body;
 
   try {
-    const sql = `UPDATE Users SET name = ?, phone = ?, address = ? WHERE id = ?`;
-    await db.pool.execute(sql, [name, phone, address, id]);  // Thay đổi ở đây
+    const sql = `UPDATE Users SET name = ?, phone = ?, address = ?, gender = ? WHERE id = ?`;
+    await db.pool.execute(sql, [name, phone, address, gender, id]);  // Thay đổi ở đây
 
     res.json({ message: "User updated successfully" });
   } catch (error) {

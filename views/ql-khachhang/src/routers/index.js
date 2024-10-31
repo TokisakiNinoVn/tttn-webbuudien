@@ -6,12 +6,16 @@ import Login from '@/pages/LoginPage.vue';
 import NotFound from '@/pages/NotFoundPage.vue';
 import ComplaintsManagementPage from '@/pages/ComplaintsManagementPage.vue';
 import CustomerManagerment from '@/pages/customers/CustomerManagerment.vue';
+import InforPage from '@/pages/InforPage.vue';
+import VoucherManagement from '@/pages/vouchers/VoucherManagement.vue';
 
 const routes = [
   { path: '/', component: Introduce },
   { path: '/login', component: Login },
   { path: '/complaints-management', component: ComplaintsManagementPage },
   { path: '/customer-list', component: CustomerManagerment },
+  { path: '/user', component: InforPage },
+  { path: '/vouchers', component: VoucherManagement },
   { path: '/home', component: Home, meta: { requiresAuth: true } },
     
 
@@ -25,9 +29,9 @@ const router = createRouter({
 
 // Navigation Guard
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('token'); // Kiểm tra nếu có token trong localStorage
+  const isLogin = !!localStorage.getItem('isLoggedIn'); // Kiểm tra nếu có token trong localStorage
 
-  if (to.meta.requiresAuth && !isAuthenticated) {
+  if (isLogin == 'false') {
     next('/login'); // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
   } else {
     next(); // Cho phép truy cập trang

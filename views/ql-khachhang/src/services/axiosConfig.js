@@ -5,6 +5,7 @@ const instance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true, // Thêm dòng này để cookie được gửi kèm trong yêu cầu
 });
 
 instance.interceptors.request.use(
