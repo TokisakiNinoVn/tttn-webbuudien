@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center min-h-screen bg-gray-100">
     <div class="bg-white shadow-md rounded-lg p-8 max-w-sm w-full">
-      <h2 class="text-2xl font-bold mb-6 text-center">Đăng Nhập</h2>
+      <h2 class="text-2xl font-bold mb-6 text-center">Đăng nhập</h2>
       <form @submit.prevent="handleLogin">
         <div class="mb-4">
           <label for="username" class="block text-sm font-medium text-gray-700">Tên người dùng:</label>
@@ -37,7 +37,13 @@
           type="submit"
           class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md transition duration-200"
         >
-          Đăng Nhập
+          Đăng nhập
+        </button>
+        <button
+          class="w-full bg-yellow-200 hover:bg-yellow-500 text-black-200 font-semibold py-2 rounded-md transition duration-200 mt-2"
+          @click="forgetPassword"
+        >
+          Quên mật khẩu
         </button>
         <div v-if="errorMessage" class="mt-4 text-red-600 text-sm">{{ errorMessage }}</div>
       </form>
@@ -75,6 +81,9 @@ const handleLogin = async () => {
     console.log(error);
     errorMessage.value = error.response?.data?.message || 'Đăng nhập thất bại';
   }
+};
+const forgetPassword = async () => {
+  alert("Chức năng đang được phát triển! 🥲")
 };
 </script>
 
