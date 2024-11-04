@@ -3,6 +3,7 @@ import instance from '@/services/axiosConfig';
 
 // Get all users
 const getAll = async () => instance.get('/api/private/customers');
+const getAllBasic = async () => instance.get('/api/private/customers/basic');
 
 // Add a new user
 const add = async ({ username, email, password }) =>
@@ -12,8 +13,8 @@ const add = async ({ username, email, password }) =>
 const getById = async (id) => instance.get(`/api/private/customers/${id}`);
 
 // Update a user by ID
-const update = async (id, { name, phone, address, gender }) =>
-  instance.put(`/api/private/customers/${id}`, { name, phone, address, gender });
+const update = async (id, { name, phone, address, gender, note }) =>
+  instance.put(`/api/private/customers/${id}`, { name, phone, address, gender, note });
 
 // Delete a user by ID
 const remove = async (id) => instance.delete(`/api/private/customers/${id}`);
@@ -28,6 +29,7 @@ const filterByRole = async (role) =>
 
 export {
   getAll,
+  getAllBasic,
   add,
   getById,
   update,

@@ -31,6 +31,10 @@
                 <td class="text-right p-2 border border-gray-300"><strong>Giới tính:</strong></td>
                 <td class="text-left p-2 border border-gray-300">{{ customer.gender }}</td>
             </tr>
+            <tr>
+                <td class="text-right p-2 border border-gray-300"><strong>Ghi chú:</strong></td>
+                <td class="text-left p-2 border border-gray-300">{{ customer.note }}</td>
+            </tr>
           </tbody>
       </table>
       <button @click="closeDetail" class="mt-4 bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600">
