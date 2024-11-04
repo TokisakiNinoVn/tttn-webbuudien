@@ -3,7 +3,7 @@
     <Navbar />
     <div class="flex flex-col w-full p-6">
       <div class="flex flex-col mb-4">
-        <h1 class="text-2xl font-bold mb-2">Danh sách khách hàng</h1>
+        <h1 class="text-2xl font-bold mb-2">Quản lý khách hàng</h1>
         <div class="flex items-center mb-2">
           <input
             type="text"

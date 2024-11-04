@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("./user.model"); // Đảm bảo đường dẫn đúng
 
 async function updatePassword(userId) {
-  const plainPassword = "nino2004"; // mật khẩu ban đầu
+  const plainPassword = "admin1234"; // mật khẩu ban đầu
   const saltRounds = 10; // số rounds để tạo muối
 
   try {
@@ -18,4 +18,4 @@ async function updatePassword(userId) {
 }
 
 // Gọi hàm với `userId` của người dùng cần cập nhật
-updatePassword(1); // ví dụ `userId` là 1
+updatePassword(14); // ví dụ `userId` là 1

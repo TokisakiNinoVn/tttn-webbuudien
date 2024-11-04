@@ -8,6 +8,9 @@ import ComplaintsManagementPage from '@/pages/ComplaintsManagementPage.vue';
 import CustomerManagerment from '@/pages/customers/CustomerManagerment.vue';
 import InforPage from '@/pages/InforPage.vue';
 import VoucherManagement from '@/pages/vouchers/VoucherManagement.vue';
+import NotiManagement from '@/pages/noti/NotiManagement.vue';
+import OrderManagement from '@/pages/order/OrderManagement.vue';
+import OrderCreate from '@/pages/order/OrderCreate.vue';
 
 const routes = [
   { path: '/', component: Introduce },
@@ -16,10 +19,13 @@ const routes = [
   { path: '/customer-list', component: CustomerManagerment },
   { path: '/user', component: InforPage },
   { path: '/vouchers', component: VoucherManagement },
+  { path: '/notifications', component: NotiManagement },
+  { path: '/orders', component: OrderManagement },
+  { path: '/create-order', component: OrderCreate },
+
   { path: '/home', component: Home, meta: { requiresAuth: true } },
     
-
-    { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
 ];
 
 const router = createRouter({

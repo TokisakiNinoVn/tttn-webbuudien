@@ -5,6 +5,8 @@ const { userController } = require('../../controllers/index');
 
 // Route to get all users
 router.get('/', userController.getAllUsers);
+// Route to get all basic users
+router.get('/basic', userController.getAllUsersBasic);
 
 // Route to get a user by ID
 router.get('/:id', userController.getUserById);

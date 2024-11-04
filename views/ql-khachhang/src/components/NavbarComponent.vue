@@ -8,7 +8,7 @@
         <ion-icon class="icon-item-navbar" name="document-outline"></ion-icon>
         Tạo đơn hàng mới
       </router-link>
-      <router-link class="item-navbar" to="/order-tracking">
+      <router-link class="item-navbar" to="/orders">
         <ion-icon class="icon-item-navbar" name="reader-outline"></ion-icon>
         Tra cứu đơn hàng
       </router-link>
@@ -28,7 +28,7 @@
         <ion-icon class="icon-item-navbar" name="chatbubbles-outline"></ion-icon>
         Chat
       </router-link>
-      <router-link class="item-navbar" to="/notification-management">
+      <router-link class="item-navbar" to="/notifications">
         <ion-icon class="icon-item-navbar" name="notifications-outline"></ion-icon>
         Quản lý thông báo
       </router-link>

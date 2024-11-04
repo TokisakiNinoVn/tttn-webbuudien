@@ -15,6 +15,7 @@
             <option value="Nữ">Nữ</option>
             <option value="Khác">Khác</option>
           </select>
+          <input v-model="formData.note" type="password" placeholder="Ghi chú - Không bắt buộc" class="border p-2 mb-2 w-full" />
           <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Thêm khách hàng </button>
           <button @click="close" type="button" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 ml-2">Hủy</button>
         </form>
